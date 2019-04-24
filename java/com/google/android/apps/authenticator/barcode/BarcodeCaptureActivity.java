@@ -42,13 +42,13 @@ import com.google.android.apps.authenticator.barcode.BarcodeTracker.OnDetectionL
 import com.google.android.apps.authenticator.barcode.preview.CameraSourcePreview;
 import com.google.android.apps.authenticator.barcode.preview.GraphicOverlay;
 import com.google.android.apps.authenticator.enroll2sv.wizard.AddAccountActivity;
-import com.google.android.apps.authenticator.testability.DaggerInjector;
 import com.google.android.apps.authenticator.testability.TestableActivity;
 import com.google.android.apps.authenticator.util.permissions.PermissionRequestor;
 import com.google.android.apps.authenticator2.R;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import dagger.android.AndroidInjector;
 import javax.inject.Inject;
 
 /**
@@ -97,11 +97,6 @@ public class BarcodeCaptureActivity extends TestableActivity {
   @Inject
   PermissionRequestor mPermissionRequestor;
 
-  public BarcodeCaptureActivity() {
-    super();
-    DaggerInjector.inject(this);
-  }
-
   private final BarcodeTracker.OnDetectionListener mDetectionListener = new OnDetectionListener() {
     @Override
     public void onNewDetection(int id, final Barcode barcode) {
@@ -129,6 +124,7 @@ public class BarcodeCaptureActivity extends TestableActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    AndroidInjection.inject(this);
     super.onCreate(savedInstanceState);
     // On API 19+ devices, we make the status bar become transparent. In older devices, we simply
     // remove the status bar.

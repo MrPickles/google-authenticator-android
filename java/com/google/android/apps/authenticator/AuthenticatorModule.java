@@ -17,13 +17,8 @@
 package com.google.android.apps.authenticator;
 
 import android.content.Context;
-import com.google.android.apps.authenticator.barcode.BarcodeCaptureActivity;
 import com.google.android.apps.authenticator.barcode.BarcodeConditionChecker;
-import com.google.android.apps.authenticator.common.AndroidDependenciesModule;
 import com.google.android.apps.authenticator.common.ApplicationContext;
-import com.google.android.apps.authenticator.crypto.CryptoModule;
-import com.google.android.apps.authenticator.otp.OtpModule;
-import com.google.android.apps.authenticator.timesync.TimeSyncModule;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -31,18 +26,7 @@ import javax.inject.Singleton;
 /**
  * Dagger injection module for Authenticator.
  */
-@Module(
-    includes = {
-        AndroidDependenciesModule.class,
-        CryptoModule.class,
-        OtpModule.class,
-        TimeSyncModule.class,
-    },
-    injects = {
-        AuthenticatorActivity.class,
-        BarcodeCaptureActivity.class
-    }
-)
+@Module
 public class AuthenticatorModule {
   private Context applicationContext;
 

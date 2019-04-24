@@ -16,15 +16,24 @@
 
 package com.google.android.apps.authenticator;
 
+import android.app.Activity;
 import android.net.http.HttpResponseCache;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
-import com.google.android.apps.authenticator.testability.DaggerInjector;
+import com.google.android.apps.authenticator.common.AndroidDependenciesModule;
+import com.google.android.apps.authenticator.crypto.CryptoModule;
+import com.google.android.apps.authenticator.otp.OtpModule;
+import com.google.android.apps.authenticator.timesync.TimeSyncModule;
 import com.google.android.apps.authenticator.testability.DependencyInjector;
 import com.google.android.apps.authenticator.util.FileUtilities;
 import com.google.android.apps.authenticator.util.PrngFixes;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import dagger.Component;
+import dagger.android.AndroidInjectionModule;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -34,6 +43,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Authenticator application which is one of the first things instantiated when our process starts.
@@ -45,11 +56,31 @@ import java.util.concurrent.TimeoutException;
  * <p>Also restricts UNIX file permissions on application's persistent data directory to owner
  * (this app's UID) only.
  */
-public class AuthenticatorApplication extends MultiDexApplication {
+public class AuthenticatorApplication extends MultiDexApplication implements HasActivityInjector {
 
   private static final String TAG = AuthenticatorApplication.class.getSimpleName();
   private static final long CACHE_SIZE = 1 * 1024 * 1024; // 1 MiB;
   private static final int GET_BARCODE_DETECTOR_TIMEOUT_MS = 20000; // 20,000 milliseconds
+
+  @Inject DispatchingAndroidInjector<Activity> activityInjector;
+
+  @Singleton
+  @Component(
+      modules = {
+        AndroidDependenciesModule.class,
+        AndroidInjectionModule.class,
+        AuthenticatorModule.class,
+        ComponentsModule.class,
+        CryptoModule.class,
+        OtpModule.class,
+        TimeSyncModule.class
+      })
+  public interface ApplicationComponent extends AndroidInjector<AuthenticatorApplication> {}
+
+  @Override
+  public AndroidInjector<Activity> activityInjector() {
+    return activityInjector;
+  }
 
   @Override
   public void onCreate() {
@@ -86,7 +117,10 @@ public class AuthenticatorApplication extends MultiDexApplication {
   }
 
   protected void initDagger() {
-    DaggerInjector.init(new AuthenticatorModule(this));
+    DaggerAuthenticatorApplication_ApplicationComponent.builder()
+        .authenticatorModule(new AuthenticatorModule(this))
+        .build()
+        .inject(this);
   }
 
   /**

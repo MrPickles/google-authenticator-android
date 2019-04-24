@@ -87,7 +87,6 @@ import com.google.android.apps.authenticator.otp.TotpClock;
 import com.google.android.apps.authenticator.otp.TotpCountdownTask;
 import com.google.android.apps.authenticator.otp.TotpCounter;
 import com.google.android.apps.authenticator.settings.SettingsActivity;
-import com.google.android.apps.authenticator.testability.DaggerInjector;
 import com.google.android.apps.authenticator.testability.DependencyInjector;
 import com.google.android.apps.authenticator.testability.TestableActivity;
 import com.google.android.apps.authenticator.util.EmptySpaceClickableDragSortListView;
@@ -101,6 +100,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortItemView;
 import com.mobeta.android.dslv.DragSortListView.DragListener;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
+import dagger.android.AndroidInjection;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -261,14 +261,10 @@ public class AuthenticatorActivity extends TestableActivity {
 
   @Inject BarcodeConditionChecker barcodeConditionChecker;
 
-  public AuthenticatorActivity() {
-    super();
-    DaggerInjector.inject(this);
-  }
-
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    AndroidInjection.inject(this);
     super.onCreate(savedInstanceState);
 
     accountDb = DependencyInjector.getAccountDb();

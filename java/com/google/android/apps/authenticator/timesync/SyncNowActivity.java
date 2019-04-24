@@ -24,8 +24,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import com.google.android.apps.authenticator.otp.TotpClock;
-import com.google.android.apps.authenticator.testability.DaggerInjector;
 import com.google.android.apps.authenticator2.R;
+import dagger.android.AndroidInjection;
 import javax.inject.Inject;
 
 /**
@@ -50,13 +50,9 @@ public class SyncNowActivity extends Activity implements SyncNowController.Prese
   @Inject TotpClock mTotpClock;
   @Inject NetworkTimeProvider mNetworkTimeProvider;
 
-  public SyncNowActivity() {
-    super();
-    DaggerInjector.inject(this);
-  }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    AndroidInjection.inject(this);
     super.onCreate(savedInstanceState);
 
     @SuppressWarnings("deprecation") // TODO: refactor to use savedInstanceState instead
