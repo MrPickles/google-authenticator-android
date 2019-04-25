@@ -25,9 +25,8 @@ android_library(
     srcs = glob(["**/*.java"]),
     custom_package = "com.google.android.apps.authenticator2.tests",
     plugins = [
-        "//:dagger-graph-analysis-processor",
-        "//:dagger-inject-adapter-processor",
-        "//:dagger-module-adapter-processor",
+        "//:dagger-android-processor",
+        "//:dagger-component-processor",
     ],
     deps = [
         "//java/com/google/android/apps/authenticator:authenticator_lib",
@@ -41,9 +40,10 @@ android_library(
         "@maven//:androidx_test_runner",
         "@maven//:com_android_support_design",
         "@maven//:com_google_code_findbugs_jsr305",
+        "@maven//:com_google_dagger_dagger",
+        "@maven//:com_google_dagger_dagger_android",
         "@maven//:com_google_guava_guava",
         "@maven//:com_google_truth_truth",
-        "@maven//:com_squareup_dagger_dagger",
         "@maven//:javax_inject_javax_inject",
         "@maven//:junit_junit",
         "@maven//:org_hamcrest_java_hamcrest",

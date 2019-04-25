@@ -38,7 +38,6 @@ import com.google.android.apps.authenticator.otp.AccountDb.OtpType;
 import com.google.android.apps.authenticator.otp.OtpProvider;
 import com.google.android.apps.authenticator.otp.OtpSource;
 import com.google.android.apps.authenticator.otp.TotpClock;
-import com.google.android.apps.authenticator.testability.DaggerInjector;
 import com.google.android.apps.authenticator.testability.DependencyInjector;
 import com.google.android.apps.authenticator.testing.TestUtilities;
 import com.google.android.apps.authenticator2.R;
@@ -71,7 +70,6 @@ public class AuthenticatorActivityPart2Test {
     mAccountDb = DependencyInjector.getAccountDb();
 
     initMocks(this);
-    DaggerInjector.init(new MockModule());
   }
 
   @After
@@ -371,24 +369,5 @@ public class AuthenticatorActivityPart2Test {
 
   private static String uriEncode(String raw) {
     return Uri.encode(raw);
-  }
-
-  /** Dagger module for unit tests */
-  @Module(
-      library = true,
-      injects = {
-        AuthenticatorActivity.class,
-      })
-  public class MockModule {
-    @Provides
-    OtpSource providesOtpSource() {
-      return new OtpProvider(mAccountDb, mockTotpClock);
-    }
-
-    @Provides
-    @Singleton
-    public BarcodeConditionChecker provideGoogleApiAvailabilityHelper() {
-      return new BarcodeConditionChecker();
-    }
   }
 }

@@ -101,7 +101,6 @@ import com.google.android.apps.authenticator.otp.PinInfo;
 import com.google.android.apps.authenticator.otp.TotpClock;
 import com.google.android.apps.authenticator.otp.TotpCounter;
 import com.google.android.apps.authenticator.settings.SettingsActivity;
-import com.google.android.apps.authenticator.testability.DaggerInjector;
 import com.google.android.apps.authenticator.testability.DependencyInjector;
 import com.google.android.apps.authenticator.testing.TestUtilities;
 import com.google.android.apps.authenticator.time.Clock;
@@ -159,7 +158,6 @@ public class AuthenticatorActivityTest {
 
     // To launch the SettingsActivity, setting the mock module here.
     // (SettingsActivity is used in the testOptionsMenuSettings test)
-    DaggerInjector.init(new MockModule());
     when(mockTotpClock.nowMillis()).thenReturn(NOW_MILLIS);
 
     // Make sure the notice for first account added is not showing.
@@ -1370,36 +1368,5 @@ public class AuthenticatorActivityTest {
                     InstrumentationRegistry.getInstrumentation().getTargetContext(), cls)));
     intended(intentMatcher);
     assertThat(TestUtilities.isStrayIntentRemaining()).isFalse();
-  }
-
-  /** Dagger module for unit tests */
-  @Module(
-      library = true,
-      injects = {AuthenticatorActivity.class, SettingsActivity.class, BarcodeCaptureActivity.class})
-  public class MockModule {
-
-    @Provides
-    @Singleton
-    @ApplicationContext
-    Context providesContext() {
-      return InstrumentationRegistry.getInstrumentation().getTargetContext();
-    }
-
-    @Provides
-    OtpSource providesOtpSource() {
-      return otpSource;
-    }
-
-    @Provides
-    @Singleton
-    BarcodeConditionChecker provideGoogleApiAvailabilityHelper() {
-      return mockBarcodeConditionChecker;
-    }
-
-    @Provides
-    @Singleton
-    public PermissionRequestor providesPermissionRequestor() {
-      return mockPermissionRequestor;
-    }
   }
 }
