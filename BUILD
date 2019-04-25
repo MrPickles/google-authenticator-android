@@ -22,25 +22,17 @@ package(
 licenses(["notice"])  # Apache 2.0
 
 java_plugin(
-    name = "dagger-graph-analysis-processor",
-    processor_class = "dagger.internal.codegen.GraphAnalysisProcessor",
+    name = "dagger-component-processor",
+    processor_class = "dagger.internal.codegen.ComponentProcessor",
     deps = [
-        "@maven//:com_squareup_dagger_dagger_compiler",
+        "@maven//:com_google_dagger_dagger_compiler",
     ],
 )
 
 java_plugin(
-    name = "dagger-inject-adapter-processor",
-    processor_class = "dagger.internal.codegen.InjectAdapterProcessor",
+    name = "dagger-android-processor",
+    processor_class = "dagger.android.processor.AndroidProcessor",
     deps = [
-        "@maven//:com_squareup_dagger_dagger_compiler",
-    ],
-)
-
-java_plugin(
-    name = "dagger-module-adapter-processor",
-    processor_class = "dagger.internal.codegen.ModuleAdapterProcessor",
-    deps = [
-        "@maven//:com_squareup_dagger_dagger_compiler",
+        "@maven//:com_google_dagger_dagger_android_processor",
     ],
 )

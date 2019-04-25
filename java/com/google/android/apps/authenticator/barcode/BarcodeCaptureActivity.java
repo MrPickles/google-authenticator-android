@@ -48,7 +48,7 @@ import com.google.android.apps.authenticator2.R;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
-import dagger.android.AndroidInjector;
+import dagger.android.AndroidInjection;
 import javax.inject.Inject;
 
 /**

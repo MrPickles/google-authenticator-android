@@ -27,9 +27,7 @@ import javax.inject.Named;
 /**
  * Dagger module for crypto package.
  */
-@Module(
-    library = true
-)
+@Module
 public class CryptoModule {
 
   @Provides @Named("MD5")

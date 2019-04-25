@@ -31,9 +31,8 @@ android_library(
     custom_package = "com.google.android.apps.authenticator2",
     manifest = "AndroidManifest.xml",
     plugins = [
-        "//:dagger-graph-analysis-processor",
-        "//:dagger-inject-adapter-processor",
-        "//:dagger-module-adapter-processor",
+        "//:dagger-android-processor",
+        "//:dagger-component-processor",
     ],
     resource_files = [
         ":res",
@@ -55,9 +54,10 @@ android_library(
         "@maven//:com_google_android_gms_play_services_base",
         "@maven//:com_google_android_gms_play_services_vision",
         "@maven//:com_google_android_gms_play_services_vision_common",
+        "@maven//:com_google_dagger_dagger",
+        "@maven//:com_google_dagger_dagger_android",
         "@maven//:com_google_code_findbugs_jsr305",
         "@maven//:com_google_guava_guava",
-        "@maven//:com_squareup_dagger_dagger",
         "@maven//:javax_inject_javax_inject",
     ],
 )

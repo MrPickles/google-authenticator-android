@@ -27,10 +27,7 @@ import javax.inject.Singleton;
 /**
  * Dagger module for the otp package.
  */
-@Module(
-    library = true,
-    complete = false
-)
+@Module
 public class OtpModule {
 
   @Provides @Singleton

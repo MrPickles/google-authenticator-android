@@ -22,13 +22,7 @@ import dagger.Provides;
 import javax.inject.Singleton;
 
 /** Dagger module for the timesync package. */
-@Module(
-    library = true,
-    complete = false,
-    injects = {
-        SyncNowActivity.class
-    }
-)
+@Module
 public class TimeSyncModule {
 
   @Provides @Singleton

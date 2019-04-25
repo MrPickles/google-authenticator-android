@@ -34,10 +34,7 @@ import javax.inject.Singleton;
 /**
  * Android framework dependencies module.
  */
-@Module(
-    library = true,
-    complete = false
-)
+@Module
 public class AndroidDependenciesModule {
 
   @Provides @Singleton
